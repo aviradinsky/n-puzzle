@@ -58,7 +58,30 @@ def hdistance(s): #This is uniform cost and not based on any heuristic
     return 0
 
 def hdistance1(s): #This will be the simple heuristic of the number of bricks not in place
-    return 0
+    return sum(x != y for x,y in enumerate(s[0]))
 
-def hdistance2(s): #This will be the Manhattan distance heuristic
-    return 0
+def hdistance2(s):
+    """
+  Calculates the Manhattan distance heuristic for the 8-puzzle.
+
+  Args:
+    s: A state of the 8-puzzle.
+
+  Returns:
+    The Manhattan distance heuristic for the given state.
+    """
+
+    # Get the size of the board.
+    n = int(math.sqrt(len(s[0])))
+
+    # Calculate the Manhattan distance for each tile.
+    h = 0
+    for i in range(n * n):
+        if s[0][i] != i:
+            # Calculate the Manhattan distance to the tile's goal position.
+            goal_row = i // n
+            goal_col = i % n
+            current_row = s[0][i] // n
+            current_col = s[0][i] % n
+            h += abs(goal_row - current_row) + abs(goal_col - current_col)
+    return h
